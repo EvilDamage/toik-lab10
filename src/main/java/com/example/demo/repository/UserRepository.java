@@ -10,6 +10,11 @@ import java.util.Map;
 public class UserRepository {
 
     private final Map<Integer, User> usersDatabase;
+    public enum Status {
+        OK,
+        FORBIDDEN,
+        UNAUTHORIZED
+    }
 
     public UserRepository() {
         usersDatabase = new HashMap<>();
@@ -19,15 +24,15 @@ public class UserRepository {
         usersDatabase.put(3, new User("silver", "$silver$", true, 0));
     }
 
-    public ResponseEntity<Void> checkLogin(final String login, final String password) {
+    public Status checkLogin(final String login, final String password) {
         for(Map.Entry<Integer, User> entry : usersDatabase.entrySet()){
             User user = entry.getValue();
             if(user.getLogin().equals(login)){
                 if(!user.isActive()){
-                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                    return Status.FORBIDDEN;
                 }
                 if(user.getPassword().equals(password)){
-                    return new ResponseEntity<>(HttpStatus.OK);
+                    return Status.OK;
                 }
                 else{
                     user.setIncorrectLoginCounter(user.getIncorrectLoginCounter() + 1);
@@ -37,6 +42,6 @@ public class UserRepository {
                 }
             }
         }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return Status.UNAUTHORIZED;
     }
 }
