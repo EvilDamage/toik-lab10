@@ -4,7 +4,6 @@ import com.example.demo.dto.LoginDto;
 import com.example.demo.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,10 +24,6 @@ public class UserApiController {
     public ResponseEntity<Void> login(@RequestBody LoginDto loginDto) {
         LOGGER.info("--- check login data: {}", loginDto);
 
-        if(userService.checkLogin(loginDto.getLogin(), loginDto.getPassword())) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return userService.checkLogin(loginDto.getLogin(), loginDto.getPassword());
     }
 }

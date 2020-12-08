@@ -29,4 +29,12 @@ public class User {
     public int getIncorrectLoginCounter() {
         return incorrectLoginCounter;
     }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void setIncorrectLoginCounter(int incorrectLoginCounter) {
+        this.incorrectLoginCounter = incorrectLoginCounter;
+    }
 }
